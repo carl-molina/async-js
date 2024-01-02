@@ -39,6 +39,8 @@ async function showNumberRace() {
   const answerPromise = await Promise.race([p1, p2, p3, p4]);
 
   const trivia = await answerPromise.json();
+  // TODO: trivia might not be good naming choice here
+  // Could be 'winningResult'
 
   console.log(`showNumberRace:`, trivia.text);
 
@@ -60,14 +62,21 @@ async function showNumberAll() {
 
   const results = await Promise.allSettled([p1, p2, p3, p4, p5]);
 
-  const goodRes = results.filter(x => x.status === "fulfilled" &&
-                                x.value.status === 200);
+  const goodRes = results.filter(
+    x =>
+      x.status === "fulfilled" &&
+        x.value.status === 200);
+    // TODO: ^ proper formatting
 
-  const badRes = results.filter(x => x.status === "rejected" ||
-                                x.value.status !== 200);
+  const badRes = results.filter(
+    x =>
+      x.status === "rejected" ||
+        x.value.status !== 200);
 
   const goodTrivia = [];
   for (const trivia of goodRes) {
+    // TODO: ^ 'trivia' not a good name for this
+    // might call it successObj
     const triviaObj = await trivia.value.json();
     goodTrivia.push(triviaObj.text);
   }
@@ -81,6 +90,7 @@ async function showNumberAll() {
       badResults.push(res.value.statusText + ' ' + res.value.status);
     }
   }
+  // TODO: ^ could be rejectObj here
 
   console.log(`showNumberAll fulfilled:`, goodTrivia);
   console.log(`showNumberAll rejected:`, badResults);
